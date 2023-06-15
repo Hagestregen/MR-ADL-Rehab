@@ -6,7 +6,8 @@ public class RotateAndEnableParticles : MonoBehaviour
 {
     [SerializeField] private ParticleSystem particleSystemToEnable = null;
     [SerializeField] private float particleDuration = 5f;
-    [SerializeField] private float amountFilled = 10f; // Ranging from 1 to 10
+    [SerializeField] private float startAmountFilledCoffee = 0f; // Ranging from 0.37 to 6.2
+    [SerializeField] private float startAmountFilledWater = 0f; // Ranging from 0.37 to 6.2
     [SerializeField] private float pourRate = 1f; // Units per second
     [SerializeField] private Material materialOne = null; // First material
     [SerializeField] private Material materialTwo = null; // Second material
@@ -16,9 +17,10 @@ public class RotateAndEnableParticles : MonoBehaviour
     private ObjectManipulator objectManipulator;
     private bool isParticleSystemPlaying = false;
     private bool isManipulationInProgress = false;
+    private float amountFilled;
 
      
-
+    //Add method for increasing pourrate
 
     //Debugmsg
     bool calledDebug = false;
@@ -52,6 +54,9 @@ public class RotateAndEnableParticles : MonoBehaviour
         {
             amountFilled = Mathf.Max(1f, amountFilled - pourRate * Time.deltaTime);
             Debug.Log("Amount Filled: " + amountFilled);
+            IncreaseFill(materialOne, amountFilled);
+            DecreaseFill(materialTwo, amountFilled);
+
         }
 
         // Check rotation and start particles while manipulation is in progress
@@ -60,8 +65,8 @@ public class RotateAndEnableParticles : MonoBehaviour
             CheckRotationAndStartParticles();
         }
 
-        IncreaseFill(materialOne, amountFilled);
-        DecreaseFill(materialTwo, amountFilled);
+        // IncreaseFill(materialOne, amountFilled);
+        // DecreaseFill(materialTwo, amountFilled);
     }
 
     private void CheckRotationAndStartParticles()
@@ -130,7 +135,7 @@ public class RotateAndEnableParticles : MonoBehaviour
         if (material != null)
         {
             float fillValue = material.GetFloat("_Fill");
-            float newAmount = amount / 10;
+            float newAmount = amountFilled - amount;
 
             fillValue = newAmount;
             material.SetFloat("_Fill", fillValue);
