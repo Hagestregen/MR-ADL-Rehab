@@ -641,6 +641,7 @@ PlayerSettings:
       GazeInput: True
       PrivateNetworkClientServer: True
       SpatialPerception: True
+      InternetClientServer: True
       InternetClient: True
       WebCam: True
       Microphone: True
